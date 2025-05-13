@@ -1,0 +1,23 @@
+name: Build GlazeWM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@vs
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        
+      - name: Build release
+        run: cargo build --release --maniffest-path glazewm/Cargo.toml
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: glazewm.exe
+          path: target/release/glazewm.exe
